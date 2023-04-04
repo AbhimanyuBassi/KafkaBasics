@@ -1,0 +1,11 @@
+public class CsvSerde implements Serde<CSVRecord> {
+    @Override
+    public Serializer<CSVRecord> serializer() {
+        return new CsvSerializer();
+    }
+
+    @Override
+    public Deserializer<CSVRecord> deserializer() {
+        return new CsvDeserializer();
+    }
+}
