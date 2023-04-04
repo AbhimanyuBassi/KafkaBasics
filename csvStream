@@ -1,0 +1,4 @@
+final StreamsBuilder builder = new StreamsBuilder();
+final Serde<CSVRecord> csvSerde = new CsvSerde();
+
+KStream<String, CSVRecord> csvStream = builder.stream("csv-topic", Consumed.with(Serdes.String(), csvSerde));
