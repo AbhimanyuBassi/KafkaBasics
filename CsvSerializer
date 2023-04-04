@@ -1,0 +1,32 @@
+public class CsvSerializer implements Serializer<CSVRecord> {
+    private final CSVFormat format = CSVFormat.DEFAULT;
+
+    @Override
+    public byte[] serialize(String topic, CSVRecord data) {
+        try {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            OutputStreamWriter writer = new OutputStreamWriter(baos);
+            format.print(data, writer);
+            writer.flush();
+            return baos.toByteArray();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
+
+public class CsvDeserializer implements Deserializer<CSVRecord> {
+    private final CSVFormat format = CSVFormat.DEFAULT;
+
+    @Override
+    public CSVRecord deserialize(String topic, byte[] data) {
+        try {
+            ByteArrayInputStream bais = new ByteArrayInputStream(data);
+            InputStreamReader reader = new InputStreamReader(bais);
+            Iterable<CSVRecord> records = format.parse(reader);
+            return records.iterator().next();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+}
